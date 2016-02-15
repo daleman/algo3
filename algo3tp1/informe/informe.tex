@@ -1,0 +1,110 @@
+\nonstopmode
+\documentclass[10pt,a4paper]{article}
+\usepackage[utf8]{inputenc} % para poder usar tildes en archivos UTF-8
+\usepackage[spanish]{babel} % para que comandos como \today den el resultado en castellano
+\usepackage{a4wide} % márgenes un poco más anchos que lo usual
+\usepackage{color}
+\usepackage{gnuplottex}
+%\usepackage{ccfonts,eulervm}
+\usepackage[T1]{fontenc}
+\usepackage{float}
+\usepackage{fancyhdr}
+\pagestyle{fancy}
+\thispagestyle{fancy}
+\addtolength{\headheight}{1pt}
+\lhead{AED3}
+\rhead{TP1}
+\usepackage[spanish,ruled,vlined,linesnumbered]{algorithm2e}
+\usepackage[conEntregas]{caratula}
+\renewcommand*{\algorithmcfname}{Algoritmo}
+
+\begin{document}
+
+\titulo{Trabajo Práctico I}
+%\subtitulo{Subtítulo del tp}
+
+\fecha{\today}
+
+\materia{Algoritmos y Estructuras de Datos III}
+
+\integrante{Amil, Diego Alejandro}{68/09}{amildie@gmail.com}
+\integrante{Barabas, Ariel}{775/11}{ariel.baras@gmail.com}
+\integrante{Aleman, Damian Eliel}{377/10}{damianealeman@gmail.com}
+\integrante{Fern\'andez Gonzalo Pablo}{836/10}{ralo4155@hotmail.com}
+
+\maketitle
+
+\tableofcontents
+\newpage
+\section{Introducción}
+El presente informe apunta a documentar el desarrollo del Trabajo Práctico número 1 de la materia Algoritmos y Estructuras de Datos III, cursada correspondiente al segundo cuatrimestre del año 2013. Este trabajo pr\'actico consiste en la realización de un análisis teórico-experimental de un conjunto de problemas propuestos por la cátedra. Se requiere, para cada uno de los tres problemas, la implementación de un algoritmo que satisfaga criterios tanto de correctitud como de complejidad temporal.
+
+Vamos a exponer, para cada uno de los problemas, los siguientes apartados:
+
+\begin{itemize}
+\item Una interpretación del enunciado, deallando ejemplos y/o casos particulares.
+\item Una solución propuesta.
+\item Un pseudocódigo que implemente dicha solución, junto con una explicación de su correctitud y una justificación de su complejidad.
+\item Un apartado de testing, tanto de correctitud como de performance.
+\end{itemize}
+
+
+\section{Pautas de Implementación}
+El lenguaje elegido para la implementación de los algoritmos es \texttt{C++}. De ser necesario vamos a utilizar la librería standard del mismo y aclarar los costos de las operaciones en cuestión. En el caso de tener que implementar una clase propia para simplificar el código o proveer de cierto encapsulamiento, los costos de los métodos de la misma serán verificados y justificados. La estructura de directorios que utilizaremos para la implementación será la siguiente para todos los ejercicios:
+
+\begin{verbatim}
+\codigo
+	 timer.h
+     \ej1
+          ej1.cpp
+          ej1.h
+          Makefile
+          \test
+               ej1_test.cpp
+               ej1_test.sh
+\end{verbatim}
+
+El archivo \texttt{timer.h} contiene las funciones necesarias pera medir el tiempo de ejecución de nuestros programas. Vamos a usar la función \texttt{clock$\_$gettime} de la librería \texttt{time.h}. Estas funciones son idénticas para las mediciones en todos los ejercicios. Las funciones pedidas por la cátedra se encuentran en el archivo \texttt{ej1.h}, y se incluyen en \texttt{ej1.cpp}. Este archivo trabaja con entrada y salida standard de manera que, para ejecutar un programa con su respectivo conjunto de casos, será suficiente con direccionarlo por consola escribiendo \texttt{./ej1<ej.in}. Obviaremos mencionar detalles referentes a la carga de datos en las implementaciones.
+
+El directorio \texttt{/test} contiene los archivos necesarios para efectuar tests de performance de nuestros programas. Para hacer esto, sólo es necesario correr el programa \texttt{ej1$\_$test.cpp} pasandole 3 parámetros, que son: el \texttt{n} máximo hasta el cual testear, el salto entre \texttt{n} y la cantidad de tests para cada \texttt{n}. De esta manera ejecutar, por ejemplo \texttt{./ej1$\_$test 10000 500 20} va a generar y correr tests con $500 \leq n \leq 10000$, con un incremento de 500 entre cada \texttt{n} y 20 tests distintos para cada \texttt{n}. La salida de la ejecuci\'on consiste en los tiempos de ejecuci\'on medidos para cada \texttt{n}.
+
+El script \texttt{ej1$\_$test.sh} encapsula la funcionalidad del programa anterior. Llamarlo con los mismos parámetros va a automáticamente compilar todo lo necesario, llamar a al programa para generar y correr los tests y graficar todo, generando un \texttt{.pdf} con el gráfico en ese mismo directorio. Este es el mismo proceso que empleamos para generar los gráficos de este informe.
+
+Para los tests de performance, realizamos la medida de tiempos con la funcion clock\_gettime de la librería estandar de C++.
+Ya que los tiempos dependen de la carga del sistema que lo está corriendo cuando medimos los tiempos, medimos la media de los datos, bajo la
+siguiente ecuacion:
+
+\begin{equation}
+ \bar{x} = \frac{1}{n} \sum_{i=1}^{n}x_{i}
+\end{equation}
+De esta manera, el valor medio hecho con muchas mediciones es un valor más confiable que el una unica medición.
+También, para tener una noción de como varían los datos, calculamos el desvío estandar de la muestra de tiempos bajo la ecuación:
+
+\begin{equation} 
+\sigma = \sqrt \frac{\sum\limits_{i=1}^{n}
+  \left(x_{i} - \bar{x}\right)^{2}}
+  {n-1}
+\end{equation}
+
+\newpage
+
+\input{ejercicios/ej1.tex}
+\newpage
+
+\input{ejercicios/ej2.tex}
+\newpage
+
+\input{ejercicios/ej3.tex}
+\newpage
+
+\section{Conclusiones}
+
+La realización de este trabajo práctico nos permitió familiarizarnos con el enfoque teórico-experimental que la cátedra espera dentro de los trabajos prácticos. Pudimos recorrer el proceso del análisis formal de un problema, desde su observación inicial hasta las conclusiones prácticas. 
+
+Por el lado teórico y formal, nos planteó las dudas sobre que es necesario demostrar para justificar nuestras soluciones propuestas. Por el lado práctico, nos ayudó a complementar las nociones de algoritmos greedy y backtracking que ya habíamos visto en las clases teóricas de la materia.
+
+También nos acercó ciertas nociones preliminares sobre cómo mostrar resultados de la manera más concreta posible y evitar los errores más comunes al hacerlo.
+
+Para finalizar, sentimos que este trabajo nos representó un buen ejercicio en el análisis algorítmico general y nos dejó bien orientados para afrontar los siguientes proyectos dentro de la materia.
+
+\end{document}

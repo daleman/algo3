@@ -1,0 +1,196 @@
+\section{Ejercicio 2 - A}
+
+\subsection{Interpretación del enunciado}
+
+El siguiente problema trata sobre el almacenamiento y la transmisión de datos entre servidores. Se tiene un conjunto de $n$ servidores interconectados de a pares a través de $m$ enlaces. Un servidor $v_i$ puede transmitirle información a otro servidor $v_j$ de manera directa si y sólo si existe un enlace entre dichos servidores. Si no, la información deberá llegar a $v_j$ pasando por otros servidores intermedios.
+
+El tiempo que tarda la información en transmitirse a través de un enlace es constante para todos los enlaces, aunque el uso de estos enlaces tiene un costo que depende de cada enlace en cuestión. Se cumple que para todo par de servidores en la red, el costo de enviar información en un sentido es el mismo que el de enviarla en el sentido contrario.
+
+En esta red de servidores, se llama ``broadcast'' al proceso de replicar información entre todos los servidores, de manera que después de un determinado tiempo, todos los servidores de la red tengan la misma información. Para hacer esto, se designa a un servidor como $master$, que es el único que inicialmente tiene la información a replicar. Este servidor $master$ va a copiar la información a todos aquellos servidores que están conectados directamente a él.
+
+Cada vez que un servidor recibe una actualización, envía la información recibida a todos los otros servidores conectados a él (exceptuando al servidor del cual recibió la actualización). Todas las transmiciones realizadas por un servidor se hacen simultáneamente. Esto se repite hasta que todos los servidores de la red tengan la misma información.
+
+El objetivo de este ejercicio es el de desarrollar un algoritmo que determine un conjunto de enlaces en el que el costo de mantenerlos todos sea el mínimo y a su vez, la actualización pueda llegar desde el servidor $master$ a cada uno de los demás servidores.
+
+\subsection{Resolución}
+
+Se modelará la situación a través de un grafo ponderado no dirigido en el que cada nodo representará un servidor y cada arista entre un par $v1$, $v2$ de nodos representará un enlace entre los servidores correspondientes a $v1$ y $v2$. Se le asignará a cada arista el peso equivalente al costo de mantener su correspondiente enlace. Se asume que el grafo es conexo, ya que se parte de que todos los servidores están interconectados. 
+
+Por ejemplo, el siguiente grafo:\\
+
+\begin{center}
+\begin{dot2tex}
+graph graphname{
+	rank=same;
+	rankdir="LR";
+	splines=line;
+	{rank=same; 1 5}
+	{rank=same; 2 6}
+	{rank=same; 3 7}
+	{rank=same; 4 8}
+	1 -- 2 [label=5];
+	2 -- 3 [label=17];
+	3 -- 4 [label=3];
+	1 -- 5 [label=24];
+	5 -- 6 [label=8];
+	6 -- 7 [label=16];
+	7 -- 8 [label=19];
+	4 -- 8 [label=7];
+	2 -- 6 [label=51];
+	3 -- 7 [label=21];
+	5 -- 2 [label=29];
+	2 -- 7 [label=3];
+	7 -- 4 [label=65];
+}
+\end{dot2tex}
+\end{center}
+
+%revisar por que los nodos están a diferentes alturas
+representa a una red con 8 servidores donde, por ejemplo, el costo de hacer una transmición entre los nodos 2 y 6 es de 51. 
+%Si se asigna al
+%~ servidor número 7 para ser el servidor $master$, los datos se
+%~ transmitirían de la siguiente manera:
+%~ 
+%~ 
+%~ \begin{center}
+%~ \begin{dot2tex}
+%~ graph graphname{
+	%~ rankdir="LR";
+	%~ ratio="compress";
+	%~ nodesep=0.0005;
+	%~ size="0.50,0.50";
+	%~ 7 -- 2;
+	%~ 7 -- 3;
+	%~ 7 -- 4;
+	%~ 7 -- 6;
+	%~ 7 -- 8;
+	%~ 2 -- 1;
+	%~ 2 -- 5;
+%~ }
+%~ \end{dot2tex}
+%~ \end{center}
+%~ 
+%~ Dado que se pide que los subproblemas de encontrar el conjunto de enlaces
+%~ de costo mínimo y de seleccionar el servidor $master$ para minimizar el tiempo
+%~ de ``broadcast'' se resuelvan por separado, se implementarán 2 algoritmos
+%~ independientes para resolverlos.}
+
+Para resolver este problema se debe, dado un conjunto de $n$ servidores y $m$ enlaces, encontrar un subconjunto de $m' < m$ enlaces tales que sea posible conectar todos los $n$ servidores entre si, pero utilizando los enlaces de menor costo posible. Esto se puede pensar como, dado un grafo conexo con pesos en sus aristas, encontrar un árbol generador mínimo del mismo. Vale aclarar que dado un grafo $G$, puede haber más de un AGM del mismo. En este ejercicio no hay requerimientos específicos sobre cuál AGM devolver. Para el grafo de la figura anterior, un AGM posible podría ser el siguiente:
+ 
+%~ desde: 2 - hasta: 7 - peso: 3
+%~ desde: 3 - hasta: 4 - peso: 3
+%~ desde: 1 - hasta: 2 - peso: 5
+%~ desde: 4 - hasta: 8 - peso: 7
+%~ desde: 5 - hasta: 6 - peso: 8
+%~ desde: 6 - hasta: 7 - peso: 16
+%~ desde: 2 - hasta: 3 - peso: 17
+
+\begin{center}
+\begin{dot2tex}
+graph graphname{
+	rank=same;
+	rankdir="LR";
+	splines=line;
+	{rank=same; 1 5}
+	{rank=same; 2 6}
+	{rank=same; 3 7}
+	{rank=same; 4 8}
+	1 -- 2 [label=5];
+	2 -- 3 [label=17];
+	3 -- 4 [label=3];
+	1 -- 5 [label=24, style=dotted];
+	5 -- 6 [label=8];
+	6 -- 7 [label=16];
+	7 -- 8 [label=19, style=dotted];
+	4 -- 8 [label=7];
+	2 -- 6 [label=51, style=dotted];
+	3 -- 7 [label=21, style=dotted];
+	5 -- 2 [label=29, style=dotted];
+	2 -- 7 [label=3];
+	7 -- 4 [label=65, style=dotted];
+}
+\end{dot2tex}
+\end{center}
+
+Optamos por implementar el Algoritmo de Kruskal para obtener el AGM. Ya que el mismo cumple con la cota de complejidad temporal requerida en este problema. Este algoritmo
+itera sobre las aristas agregando al resultado la arista de menor peso que no
+forme ciclos. Para esto, se ordenan las aristas según su peso (para así
+obtener en tiempo constante la arista de menor peso) y luego se las agrega
+hasta formar un árbol. A continuación se muestra el pseudocódigo del algortimo
+de Kruskal:\\
+
+\begin{algorithm}[H]
+	\caption{Algoritmo de Kruskal}
+	\KwData{\textbf{Grafo} $G$}
+	$G.aristas \longleftarrow$ ordenar$\_$por$\_$peso$\_$asc($G.aristas$)\\
+	\textbf{vector<arista>} $res \longleftarrow \emptyset$\\
+	\ForEach{$e \in G.aristas$}{
+		\If{!forma$\_$ciclo($e$, $res$)}{
+		$res \longleftarrow res \cup e$\\
+		}
+	}
+	\textbf{return} $res$\\
+\end{algorithm}
+
+\subsection{Demostración de Correctitud}
+
+\textbf{Propiedad 1 -} \emph{Un árbol generador mínimo del grafo que representa
+la red es una solución al problema.}\\
+
+\par{Un AGM es un árbol y por lo tanto existe un único camino entre todo par
+de vértices; entonces se cumple que cualquier servidor puede enviar
+información y que todo otro servidor recibirá dicha información eventualmente.
+El costo de mantener todos los enlaces es la suma de los costos de mantener
+cada enlace, es decir es equivalente al peso del árbol generador; y, como de
+todos los posibles árboles generadores, se toma el de mínimo peso, podemos
+asegurar que estamos tomando el conjunto de enlaces de menor costo.}\\
+
+\textbf{Propiedad 2 -} \emph{El algoritmo de Kruskal genera una árbol generador
+mínimo a partir de un grafo conexo con pesos en los ejes.}\\
+
+\par{Está demostrado que el algoritmo de kruskal es correcto (citar
+demostración) y devuelve un AGM. La demostración de correctitud consiste en
+probar que el resultado es un árbol ya que la cantidad de aristas es una menos
+que la cantidad de nodos y no forman ciclos ya que sólo se agregan las aristas
+que no forman ciclos con el conjunto de aristas ya agregado. La demostración
+de optimalidad se basa en suponer que existe un árbol generador de menor
+peso que el que devuelve el algoritmo de Kruskal y se llega a un absurdo,
+ya que Kruskal elige siempre las aristas de menor peso.}
+
+\subsection{Cota de Complejidad}
+
+\par{La complejidad del algortimo es la complejidad de Kruskal.}
+
+\subsection{Implementación}
+
+Nuestra implementación del algoritmo de Kruskal es la siguiente:
+\begin{lstlisting}
+  
+  grafo kruskal(){
+    disjointSet ds(this->cantNodos);
+    vector<arista> res;
+    /*Ordeno la lista de aristas para Kruskal */
+    sort(this->aristas.begin(), this->aristas.end()); 
+        
+    int i = 0;  /* Indice de arista que itero */
+    int j = 0;  /* Cantidad de aristas que agrege */
+    
+    while ( j < this->cantNodos-1 ) {
+      if(!ds.sameSet(this->aristas[i].nodo1, this->aristas[i].nodo2)){
+        ds.union_by_rank(this->aristas[i].nodo1, this->aristas[i].nodo2);
+        res.push_back(this->aristas[i]);
+        j++;
+      }
+      i++;
+    }
+    
+    /* Armo el grafo para devolver */
+    grafo g_res(this->cantNodos);
+    for(int i = 0; i < res.size(); ++i)
+      g_res.asociar(res[i].nodo1+1, res[i].nodo2+1, res[i].peso);
+    
+    return g_res;
+  }
+\end{lstlisting}
+
+Notar que fue necesario agregar a nuestro programa una parte que creara un grafo para poder devolver algo que la segunda parte del ejercicio 2 pudiera procesar sin tener que volver a leer la entrada.

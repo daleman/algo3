@@ -1,0 +1,391 @@
+\section{Apéndice}
+
+\subsection {La clase Grafo}
+\begin{lstlisting}
+struct arista{
+	int nodo1;
+	int nodo2;
+	
+	arista(int n, int m){
+		this->nodo1 = n;
+		this->nodo2 = m;
+	}
+
+};
+
+class grafo
+public:
+ int cantNodos;
+ vector< vector<int> > lista_global;
+ vector< vector<int> > matriz_ady;
+ vector<arista> aristas;
+
+ //Constructor: Construye un grafo vacío
+ grafo(){
+  grafo(0);
+ }
+
+ //Constructor: Construye un grafo con n nodos sin aristas
+ grafo(int n){
+  constructor(n);
+ }
+
+ //Construye el grafo a partir de la entrada estandar
+  // (llamar despues del constructor vacío)
+ void inicializar() {
+  int n, m, a, b, c;
+  cin >> n;
+  constructor(n);
+  if(n != 0) {
+   cin >> m;
+   for(int i = 0; i < m; ++i){
+    cin >> a;
+    cin >> b;
+    //Paso de 1..n a 0..n-1::
+    a--; b--;
+    asociar(a,b);
+   }
+  }
+ }
+
+ //Construye un grafo con aristas aleatorias
+  // (llamar despues del constructor basico)
+ void generar_aristas_aleatorias() {
+  srand(time(NULL));
+  for(int i = 0; i < cantNodos; ++i)
+  for(int j = i; j < cantNodos; ++j)
+   if(rand() \%2 == 0) asociar(i, j);
+ }
+
+ int gradoMax(){
+  unsigned int gradoMax = 0;
+  for (int i = 0; i < cantNodos; ++i ){
+   if (lista_global[i].size() > gradoMax) {
+    gradoMax = lista_global[i].size();
+   }
+  }
+  return gradoMax;
+ }
+
+ int grado(int i) {
+  return lista_global[i].size();
+ }
+
+ void asociar(int nodo1, int nodo2){
+
+  if(nodo1 != nodo2){
+
+   /* Agrego la arista faltante  */
+   this->aristas.push_back(arista(nodo1,nodo2));
+   
+    //agrego cada nodo en la lista del otro nodo incidente
+     
+    (this->lista_global[nodo1]).push_back(nodo2);
+    (this->lista_global[nodo2]).push_back(nodo1);
+  
+    (this->matriz_ady[nodo1][nodo2]) = 1;
+    (this->matriz_ady[nodo2][nodo1]) = 1;
+  }
+ }
+ 
+ bool hayArista(int nodo1, int nodo2) const{
+  return (matriz_ady[nodo2][nodo1] == 1);
+ }
+
+ // Devuelve si el nodo 'nodo' se conecta con la clique 'clique'
+ bool se_conecta_con_clique(int nodo, vector<bool> &clique){
+  for (int i = 0; i < cantNodos; ++i) {
+   if ( (clique[i]) && (matriz_ady[i][nodo]==0) ){
+    return false;
+   }
+  }
+  return true;
+ }
+
+ // Devuelve si el conjunto 'nodos' representa una clique
+ bool es_clique(vector<bool> nodos) {
+  vector<int> clique = vector<int>();
+  for (int i=0; i<cantNodos; i++) {
+   if (nodos[i]) {
+    for (int j=0; j<clique.size(); j++) {
+     if(matriz_ady[i][clique[j]]==0) return false;
+    }
+    clique.push_back(i);
+   }
+  }
+  return true;
+ }
+
+ // Determina cuanto varía la frontera de la clique 'clique'
+  // al agregar el nodo 'nodo'
+ int cuanto_aporta(int nodo, Solucion &s){
+  int frontera_inicial = s.second;
+  alternar(s, nodo);
+  int frontera_final = s.second;
+  alternar(s, nodo);
+  return frontera_final - frontera_inicial;
+ }
+
+ // Devuelve el v-esimo vecino de la solucion s
+ Solucion obtener_vecino(Solucion &s, Solucion &vAnterior, int v) {
+  Solucion vecino;
+  int nodos_distintos = 1;//Me dice cuantos nodos debo agregar/sacar
+  int vecinos = combinatorio(cantNodos,1);
+  while (v >= vecinos) {
+   nodos_distintos++;
+   v -= vecinos;
+   vecinos = combinatorio(cantNodos, nodos_distintos);
+  }
+  if (v==0) {
+   vecino = make_pair(s.first, s.second);
+   for (int i=0; i<nodos_distintos; i++) {
+    alternar(vecino, i);
+   }
+  } else {
+   vecino = make_pair(vAnterior.first, vAnterior.second);
+   if (vecino.second < 0) vecino.second*=-1;
+   int ov = 0;
+   for (int i=cantNodos-1; i>=0; i--) {
+    if (s.first[i]!=vAnterior.first[i]) {
+     if (i==cantNodos-1-ov) {
+      ov ++;
+      alternar(vecino, i);
+     } else {
+      if (ov>0) {
+       alternar(vecino, i);
+       alternar(vecino, i+1);
+       int j = i+2;
+       while(ov>0 && j<cantNodos && vecino.first[j]==s.first[j]) {
+        alternar(vecino, j);
+        j++; ov--;
+       }
+       if (ov==0) break;								
+      } else {
+       alternar(vecino, i);
+       alternar(vecino, i+1);
+       break;
+      }
+     }
+    }
+   }
+  }
+  if (!es_clique(vecino.first)) vecino.second *= -1;
+  return vecino;
+ }
+
+ void alternar(Solucion &v, int i) {
+  v.first[i] = !v.first[i];
+  //Recalcular vecino.second (frontera) en funcion del nodo
+  // sacado/agregado (no importa si es o no una clique, todavía)
+  if (v.first[i]) {
+   for (int j=0; j<lista_global[i].size(); j++) {
+    if (v.first[lista_global[i][j]]) {
+     v.second--;
+    } else v.second++;
+   }
+  } else {
+   for (int j=0; j<lista_global[i].size(); j++) {
+    if (v.first[lista_global[i][j]]) {
+     v.second++;
+    } else v.second--;
+   }			
+  }
+ }
+ 
+private:
+ void constructor(int n) {
+  //cargo la cantidad de nodos
+  this->cantNodos = n;
+
+  vector <int> vec;
+
+  //inicializo todas las listas vacias
+  for(int i = 0; i < n; i++){
+   (this->lista_global).push_back(vector <int>()) ;
+  }
+
+  for(int i = 0; i < n; i++){
+   (this->matriz_ady).push_back(vector <int>(n)) ;
+  }
+ }
+\end{lstlisting}
+\newpage
+\subsection{Algoritmo Exacto}
+
+\begin{lstlisting}
+Solucion exacto(grafo &g) {
+Solucion optima = make_pair(vector<bool>(g.cantNodos,false), 0);
+Solucion actual = make_pair(vector<bool>(g.cantNodos,false), 0);
+exacto_recur(g, 0, optima, actual);
+return optima;
+}
+
+Solucion exacto_sin_poda(grafo &g) {
+Solucion optima = make_pair(vector<bool>(g.cantNodos,false), 0);
+Solucion actual = make_pair(vector<bool>(g.cantNodos,false), 0);
+exacto_recur_sp(g, 0, optima, actual);
+return optima;
+}
+
+void exacto_recur(grafo &g, int i, Solucion &optima, Solucion &actual) {
+if (actual.second > optima.second) {
+ optima = actual;
+}
+if (i==g.cantNodos) {
+ return;
+}
+
+// si se conecta_con_clique sigo la recursion con y sin ese nodo
+if ( g.se_conecta_con_clique(i, actual.first) ) {
+ g.alternar(actual, i);
+ exacto_recur(g, i+1, optima, actual);
+ g.alternar(actual, i);
+ exacto_recur(g, i+1, optima, actual);
+// si no se conecta con mas nodos tampoco va a ser una clique,
+// luego hago la recursion sin ese nodo
+}else{
+ exacto_recur(g, i+1, optima, actual);
+}
+}
+
+void exacto_recur_sp(grafo &g, int i, Solucion &optima, Solucion &actual) {
+if (actual.second > optima.second) {
+ optima = actual;
+}
+if (i==g.cantNodos) {
+ return;
+}
+g.alternar(actual, i);
+exacto_recur_sp(g, i+1, optima, actual);
+g.alternar(actual, i);
+exacto_recur_sp(g, i+1, optima, actual);
+}
+\end{lstlisting}
+
+\newpage
+\subsection{Heur\'istica Golosa}
+\begin{lstlisting}
+Solucion goloso(grafo g){
+Solucion s = make_pair(vector<bool>(g.cantNodos,false), 0);
+
+while (true){
+ int candidato = -1;
+ int maximo_aporte = 0;
+
+ // veo cual es el nodo que mas aporta y si aporta algo
+  // positivo, lo agrego
+ for (int i = 0 ; i < g.cantNodos; ++i){				
+  if (!s.first[i]){
+   if ( g.se_conecta_con_clique(i, s.first) ){
+    int aporta = g.cuanto_aporta(i,s);
+    if (aporta > maximo_aporte){
+     candidato = i;
+     maximo_aporte = aporta;
+    }
+   }
+  }
+ }
+
+ if (candidato == -1){
+  break;
+ } else {
+  g.alternar(s, candidato);
+ }
+}
+
+return s;
+}
+
+\end{lstlisting}
+\newpage
+\subsection{Heur\'istica de búsqueda Local}
+\begin{lstlisting}
+// Parametros:
+// * cant_iter: maxima cantidad de iteraciones sin mejorar
+// (se reinicia cada vez que mejora)
+// * vecinos_size: tamaño de la vecindad
+// (cantidad de nodos distintos (como maximo) de cada vecino)
+// La cantidad de vecinos en una vecindad de tamaño V es
+ // Sum{i=1..V} (n i)
+Solucion local(grafo &g, Solucion &sol_inicial, int vecinos_size) {
+
+Solucion sol_actual = make_pair(sol_inicial.first, sol_inicial.second);
+bool maximo_local = false;
+int vecindad = cant_vecinos(g.cantNodos, vecinos_size);
+while (!maximo_local) {
+ Solucion sol_mejor = make_pair(vector<bool>(0), -1);//solucion vacia
+ //Recorrer vecindad
+ Solucion temporal = make_pair(vector<bool>(0), -1);
+ for (int i=0; i<vecindad; i++) {
+  temporal = g.obtener_vecino(sol_actual, temporal, i);
+  if (temporal.second > sol_mejor.second) {
+    sol_mejor = temporal;
+  }
+ }
+ if (sol_mejor.second > sol_actual.second) {
+  sol_actual = sol_mejor;
+ } else {
+  maximo_local = true;
+ }
+}
+return sol_actual;
+}
+
+\end{lstlisting}
+\newpage
+\subsection{Metaheur\'istica de búsqeuda Tab\'u}
+\begin{lstlisting}
+// Parametros:
+// * cant_iter: maxima cantidad de iteraciones sin mejorar
+// (se reinicia cada vez que mejora)
+// * tabu_size: tamaño de la lista tabu
+// (cantidad de soluciones que puede almacenar)
+// * vecinos_size: tamaño de la vecindad
+// (cantidad de nodos distintos (como maximo) de cada vecino)
+// La cantidad de vecinos en una vecindad de tamaño V es
+// Sum{i=1..V} (n i)
+Solucion tabu(grafo &g, Solucion &sol_inicial, int cant_iter, int tabu_size, int vecinos_size) {
+
+Solucion sol_optima = make_pair(sol_inicial.first, sol_inicial.second);
+Solucion sol_actual = make_pair(sol_inicial.first, sol_inicial.second);
+Tabu_list lista_tabu(tabu_size);
+int iter = 0;
+int vecindad = cant_vecinos(g.cantNodos, vecinos_size);
+while (iter < cant_iter) {
+ //solucion vacia
+ Solucion sol_mejor = make_pair(vector<bool>(0), -pow(g.cantNodos,2));
+ //solucion vacia
+ Solucion sol_mejor_tabu = make_pair(vector<bool>(0), -pow(g.cantNodos,2));
+ //Recorrer vecindad
+ Solucion temporal = make_pair(vector<bool>(0), -1);
+ for (int i=0; i<vecindad; i++) {
+  temporal = g.obtener_vecino(sol_actual, temporal, i);
+  if (temporal.second > sol_optima.second) {
+   sol_optima = temporal;
+   if (sol_mejor.second > sol_actual.second) iter = -1;
+  }
+  if (temporal.second > sol_mejor_tabu.second) {
+   sol_mejor_tabu = temporal;
+  }
+  if ((temporal.second > sol_mejor.second)
+   &&(!lista_tabu.es_tabu(temporal.first))) {
+    sol_mejor = temporal;
+  }
+ }
+ iter++;
+ lista_tabu.add_tabu(sol_actual.first);
+ sol_actual = sol_mejor;
+ // Si no pude tomar ningun vecino valido, tomo una solucion tabu
+ if (sol_actual.second==-pow(g.cantNodos,2)) {
+  sol_actual = sol_mejor_tabu;
+ }
+ // Si tampoco tengo una solucion tabu, me quede estancado
+ if (sol_actual.second==-pow(g.cantNodos,2)) {
+  iter = cant_iter;
+ }
+}
+
+	return sol_optima;
+}
+
+\end{lstlisting}

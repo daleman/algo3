@@ -1,0 +1,322 @@
+\section{Ejercicio 3}
+\subsection{Interpretación del enunciado}
+\par{En cierta provincia se ubican varias fábricas de ladrillos pertenecientes
+  una misma empresa. La empresa se encarga de distribuír  lo s ld rillos de l
+as fábricas a sus clientes. Para ello, utiliza las rtas provinciales que conec                                                                                                                                                                                                                                                                                         
+distintos puntos de la provincia en los que puede haber una fábrica o un
+cliente. Sin embargo, las rutas no están preparadas para soportar el peso de
+los camiones que transportan los ladrillos, así que estas deben ser
+fortalecidas. El costo de fortalecer cada ruta es proporcional a la longitud de
+la misma. La empresa quiere fortalecer determinadas rutas para poder distribuír
+los ladrillos a sus clientes sin problemas, intentando reducir lo más posible
+el costo de dicha remodelación. El objetivo del ejercicio es desarrollar un
+algoritmo que determine el conjunto de rutas que deben ser fortalecidas para
+poder continuar la distribución (debe haber una ruta fortalecida entre cada
+cliente y al menos una fábrica), cuyo costo de fortalecimiento sea mínimo.}
+\subsection{Resolución}
+\par{Se modelará la situación a través de un grafo en el que cada nodo
+representará un cliente o una fábrica y cada arista entre un par $v1$, $v2$
+de nodos representará una ruta entre los clientes o fábricas correspondientes a
+$v1$ y $v2$. Para modelar el costo de fortalecer cada ruta, se le asignará a
+cada arista el peso equivalente a la longitud de su correspondiente ruta. Si
+bien el grafo podría no ser conexo, Se asume que existe un camino simple entre
+cada cliente y al menos una fábrica, ya que se parte de que se puede satisfacer
+la demanda de todos los clientes. Se busca obtener un conjunto de rutas tal que
+exista un camino entre cada cliente y al menos una fábrica, es decir que
+debemos encontrar un subgrafo en el grafo modelado. Como se busca reducir el
+costo total sería conveniente que dicho subgrafo esté compuesto por árboles.
+Este subgrafo constaría de una componente conexa por cada fábrica, sin dejar
+clientes afuera. Cada componente conexa tendría que ser un árbol generador
+del subgrafo inducido por los nodos de dicha componente. De esta forma se está
+asegurando mantener la mínima cantidad de rutas necesarias. De todos los
+posibles subgrafos bosque, debemos tomar el de menor peso para reducir el costo
+total de fortalecer las rutas. En definitiva hay que encontrar un bosque
+generador (conjunto de árboles generadores) de peso mínimo en el grafo modelado,
+con la restricción de que haya exactamente una fábrica en cada árbol y ningún
+cliente quede afuera.
+
+A continuación, se presenta el pseudocódigo del algoritmo:\\
+
+\begin{algorithm}[H]
+	\caption{Algoritmo de Ejercicio 3}
+	\KwData{Grafo G=(V,E) con nodos clientes y nodos fábrica, tal que para todo cliente, hay una fábrica alcanzable desde el.}
+	
+	$G.aristas \longleftarrow$ ordenar$\_$por$\_$peso$\_$asc($G.aristas$)\\
+	\textbf{vector<arista>} $res \longleftarrow \emptyset$\\
+	\ForEach{$e \in G.aristas$}{
+		\If{!forma$\_$ciclo($e$, $res$) $\land$ no une dos componentes con una fábrica en cada una}{
+		$res \longleftarrow res \cup e$\\
+		}
+	}
+	\textbf{return} $res$\\
+	
+\end{algorithm}
+
+}
+
+\subsection{Demostración de Correctitud}
+
+
+\textbf{La solución es válida:\\}
+    Demostración:
+    Todo cliente puede ser provisto por al menos una fábrica ya que hay una
+    fábrica por componente conexa.
+    Veremos que el algoritmo retorna un grafo $G $con cada cliente que pertenece a una componente
+    conexa(en la que hay una fábrica):\\
+    Supongamos que hay un cliente $c$ que no está en ninguna componente conexa. Esto es equivalente a afirmar
+    que $c \notin V(G)$. Como cada cliente en el grafo de entrada del algoritmo, tiene un camino a alguna fábrica
+    $\Longrightarrow$ existe un camino entre cualquier cliente y alguna fábrica.}
+
+\textbf{Demostrar que es óptimo}
+
+    \par{
+%   \textbf{Demostrar que existe una solución óptima con una fábrica por componente conexa:}
+    
+    Notar que la solución debe cumplir que en cada componente conexa hay al menos una fábrica. Veremos que si un grafo $G$ contiene
+    más de una fábrica en una componente conexa, existe un subgrafo (con el mismo conjunto de vertices y menos aristas)
+    de $G'$ con una sola fábrica por componente conexa con menor peso que el de $G$.
+    
+    \textbf{Propiedad:} Sea una $G$ el grafo de una solución con más
+    de una fábrica en alguna componente conexa, veremos que si hay una sola fábrica en esa componente, el costo de la nueva solución
+    quitandole una arista \footnote{Esta arista que quitamos pertence a un camino entre dos fábricas}tiene igual o menor peso.\\
+    
+    Demostración:
+    Sea $P$ un camino entre dos fábricas y sea $G'$ el grafo resultante de quitarle una arista $e$ (que une a los nodos $u,v$)
+    perteneciente a un camino entre dos fábricas:$ P = C_1 \leftrightarrow (u,v) \leftrightarrow C_2$.
+    Veamos que $G'$ sigue siendo solución posible.
+    
+    Sea un nodo cliente que no está en la componente conexa a la que pertenece $e$. Luego, ese cliente tiene a una fábrica alcanzable,
+    ya que no quitamos ninguna arista de su componente conexa y como $G$ era solución, había una fábrica en esa componente.
+    Sea un nodo cliente $c$ que estaba en la componente conexa a la que pertenece $e$.
+    En ese caso como $G$ era un grafo solución, existia en $G$ un camino entre un c y una fábrica. Luego en ese camino, pasaba por
+    $u$, o por $v$ (los nodos incidentes a la arista removida).Sin perdida de generalidad, supongamos que inicidía en v.
+    
+    Como $e$ era una arista que pertenecía a un camino entre dos fábricas se puede crear un camino
+    que llegue desde $c$ a una fábrica: $ c \leftrightarrow v \leftrightarrow C_2$. Luego $G'$ tambien es solución.
+    Además como quitamos una arista, que tiene peso positivo (todas lo tienen), el costo
+    de la solución es menor o igual a la solución anterior.
+    
+    Esta quita de aristas se puede repetir hasta tener un grafo con una fábrica por componente conexa. Este grafo
+    sera solución optima pues no se le pueden quitar aristas: si se remueve una arista de una componente conexa (que es un arbol) 
+    la cual contiene una sola fábrica , se va a desconectar la componente generando asi la imposibilidad
+    para algun cliente de alcanzar a la fábrica que estaba en la componente conexa (antes de quitar la arista).\\}
+
+% 	\par{\textbf{Demostrar que usa la cantidad mínima de aristas:}
+% 	Sea T una solución con una fábrica por componente conexa(cc) y c aristas (la cantidad de cliente).
+% 	Como cada cc es una AGM, al quitar una arista de una cc, pasan a haber 2 ccs, y como sólo había una fábrica por cc,
+% 	los clientes de alguna de las 2 ccs formadas no podrá ser provisto.
+% 	$\Rightarrow$ La cantidad de aristas de la solución es mínima.}
+
+  \par{
+  \textbf{El peso de la solución es mínimo:\\} 
+  Demostración:\\
+  Sea $T$ la solución devuelta por nuestro algoritmo y sea $e$ una arista del grafo original tal que $e \notin T$.
+  Agrego la arista $e = (u,v)$ a $T$ generando así al grafo $T'$:
+
+  \textbf{Caso 1, $u$ y $v$ pertenecen a la misma cc en T: } 
+  Cada cc del grafo devuelto por nuestro algoritmoes un AGM y, por ser árbol,
+  $T+e$ contiene un ciclo incluído en la cc de $u$ y $v$. Sea $C$ tal ciclo, tomo $f$
+  arista en $C$. Defino $T' = T+e-f$ con peso $p(T') = p(T) + p(e) - p(f)$.
+  Como nuestro algoritmo siempre selecciona las aristas de peso minimo que no forman ciclo
+  $$p(f) \leq p(e)$$ , luego
+  $$0 \leq p(e) - p(f) \Rightarrow p(T') \geq P(T)$$. Es preciso aclarar que $T+e-f$ es conexo, por lo tanto todos los clientes
+  tienen a una fábrica alcanzable.
+
+  \textbf{Caso 2, $u$ y $v$ pertenecen a distintas cc en T: }
+  Las ccs de $u$ y $v$ ahora son una misma cc con dos fábricas. Esta cc es un árbol porque es conexa (obvio) y la cantidad de
+  aristas es la suma de la cantidad de aristas es $m = m1+m2+1 = n1-1 + n2-1 +1 = n1+n2-1 = n-1$.
+  Luego puedo quitar una arista que pertenece al camino entre las dos fábricas \footnote{Es preciso aclarar que puedo suponer esto de la arista
+  que quitamos ya que nuestro algoritmo no devuelve grafos con componentes conexas con más de una fábrica.}
+  que actualmente están conectadas con el  camino
+  $ P = C_1 \leftrightarrow (u,v) \leftrightarrow C_2$. Luego cualquier cliente del grafo resultante de remover la arista $e$
+  tiene un camino hasta alguna fábrica:
+  
+  Sea un nodo cliente que no está en la componente conexa a la que pertenece $e$. Luego, ese cliente tiene a una fábrica alcanzable,
+  ya que no quitamos ninguna arista de su componente conexa y como $T$ era solución, había una fábrica en esa componente.
+  
+  Sea un nodo cliente $c$ que estaba en la componente conexa a la que pertenece $e$.
+  En ese caso como $T$ era un grafo solución, existia en $T$ un camino entre un c y una fábrica. Luego en ese camino, pasaba por
+  $u$, o por $v$ (los nodos incidentes a la arista removida).Sin perdida de generalidad, supongamos que inicidía en v.
+    
+  Como $e$ era una arista que pertenecía a un camino entre dos fábricas se puede crear un camino
+  que llegue desde $c$ a una fábrica: $ c \leftrightarrow v \leftrightarrow C_2$. Luego $T'$ tambien es solución.
+    
+  Como nuestro algoritmo siempre selecciona las aristas de peso minimo que no forman ciclo
+  $$p(f) \leq p(e)$$ , luego
+  $$0 \leq p(e) - p(f) \Rightarrow p(T') \geq P(T)$$.
+    
+% 		Como la cantidad de aristas
+% 		de la solución actual es una más que la mínima puedo sacar una arista de la nueva cc para obtener una solución mejor que
+% 		T+e, siempre y cuando mantenga que las dos ccs que se formen al quitar una arista de la nueva cc, tengan una fábrica.
+% 		Sea f una arista distinta de e tal que al quitarla de la nueva cc, se formen dos ccs con una fábrica cada una (Si no hubiese
+% 		una f distinta de e, tendría que sacar e y volvería a quedar la misma solución, por lo tanto sería solución única).
+% 		el peso de f no puede ser mayor al peso de e porque si lo fuera, en lugar de escoger f, el algoritmo habría escogido e.\\
+}
+
+
+    $\Rightarrow$ Cualquier solución del tipo $T+e-f$ tiene peso mayor o igual al peso de $T \Rightarrow$ Nuestra solución es óptima. \box
+
+}
+
+\end{enumerate}
+
+%\subsection{Complejidad}
+%La complejidad del algoritmo es $O(m+n)$, ya que se fija en todas las aristas
+
+\subsection{Cota de Complejidad}
+
+\subsection{Implementación}
+
+\begin{lstlisting}
+grafo kruskal(){
+  disjointSet ds(this->cantNodos);
+  vector<arista> res;
+  /*Ordeno la lista de aristas para Kruskal */ // ----> O(n logn)
+  sort(this->aristas.begin(), this->aristas.end()); 
+  
+  int i = 0;	//indice de arista que itero
+  int j = 0;	//Cantidad de aristas que agregue
+  int cantClientes = cantNodos - this->cantFabricas;
+  
+  while (j < cantClientes){
+    int root1 = ds.root(this->aristas[i].nodo1)->valor;
+    int root2 = ds.root(this->aristas[i].nodo2)-> valor;
+    if((root1 != root2) 	//estan en distintas componente conexas y...
+    // no pasa que ambos tengan una fabrica
+    && !((root1 < this->cantFabricas) && (root2 < this->cantFabricas)) ){ 
+      if (root1 < this->cantFabricas) {  //Si el primero es una fabrica...
+	      ds.simple_join(root2, root1);      
+      } else {   //Si el segundo es fabrica o si ninguno lo es.
+	      ds.simple_join(root1, root2);	     
+      }
+      j++;
+      res.push_back(this->aristas[i]);
+    }
+    i++;
+  }
+  
+  /* Armo el grafo para devolver */
+  grafo g_res(this->cantNodos);
+  for(int i = 0; i < res.size(); ++i)
+	  g_res.asociar(res[i].nodo1+1, res[i].nodo2+1, res[i].peso);
+  
+  return g_res;
+}
+\end{lstlisting}
+\newpage
+
+
+\subsection{Testing de Correctitud}
+
+Los tests expuestos a continuación fueron diseñados con el fin de verificar
+diferentes casos particulares que pudimos identificar. Para cada test vamos
+a exponer la entrada, la salida y, en caso de que sea necesario, una
+justificaci\'on de la correctitud de la soluci\'on.\\
+
+\noindent\textbf{Test$\#$1}\\
+\textbf{Caracterización:} Una fábrica sin clientes.\\
+\textbf{Input:}\\ \texttt{1 0 0}
+\begin{center}
+\begin{dot2tex}
+graph graphname{
+	rank=same;
+	rankdir="LR";
+	splines=line;
+	1;
+}
+\end{dot2tex}
+\end{center}
+\textbf{Output:} \texttt{0 0}\\
+\textbf{Status:} Ok, como no hay clientes, no hay rutas que fortalecer.\\
+
+\noindent\textbf{Test$\#$2}\\
+\textbf{Caracterización:} Varias fábricas sin clientes.\\
+\textbf{Input:}\\ \texttt{6 0 8\\1 2 5\\1 3 7\\2 3 3\\2 4 6\\3 4 8\\
+4 5 8\\4 6 4\\6 1 2}
+\begin{center}
+\begin{dot2tex}
+graph graphname{
+	rank=same;
+	rankdir="LR";
+	splines=line;
+	1 -- 2 [label=5];
+	1 -- 3 [label=7];
+	3 -- 2 [label=3];
+	4 -- 2 [label=6];
+	4 -- 3 [label=8];
+	5 -- 4 [label=8];
+	4 -- 6 [label=4];
+	1 -- 6 [label=2];
+}
+\end{dot2tex}
+\end{center}
+\textbf{Output:} \texttt{0 0}\\
+\textbf{Status:} Ok, como no hay clientes, no hay rutas que fortalecer.\\
+
+
+
+\noindent\textbf{Test$\#$3}\\
+\textbf{Caracterización:} Varias fábricas y un cliente.\\
+\textbf{Input:}\\ \texttt{4 1 8\\1 2 5\\1 3 7\\2 3 3\\2 4 6\\3 4 8\\
+4 5 8\\4 1 4\\5 2 2}
+\begin{center}
+\begin{dot2tex}
+graph graphname{
+	rank=same;
+	rankdir="LR";
+	splines=line;
+	1 -- 2 [label=5];
+	1 -- 3 [label=7];
+	3 -- 2 [label=3];
+	4 -- 2 [label=6];
+	4 -- 3 [label=8];
+	5 -- 4 [label=8];
+	4 -- 1 [label=4];
+	2 -- 5 [label=2];
+}
+\end{dot2tex}
+\end{center}
+\textbf{Output:} \texttt{ 2 1 5 2}\\
+\textbf{Status:} Ok, como hay un solo cliente (el nodo 5), elige la ruta de costo minimo que conecta
+ a ese cliente con una de las fábricas(el nodo 2) adyacentes.\\
+
+\noindent\textbf{Test$\#$4}\\
+\textbf{Caracterización:} Varios clientes y una fábrica.\\
+\textbf{Input:}\\ \texttt{1 4 8\\1 2 5\\1 3 7\\2 3 3\\2 4 6\\3 4 8\\
+4 5 8\\4 1 4\\5 2 2}
+\begin{center}
+\begin{dot2tex}
+graph graphname{
+	rank=same;
+	rankdir="LR";
+	splines=line;
+	1 -- 2 [label=5];
+	1 -- 3 [label=7];
+	3 -- 2 [label=3];
+	4 -- 2 [label=6];
+	4 -- 3 [label=8];
+	5 -- 4 [label=8];
+	4 -- 1 [label=4];
+	2 -- 5 [label=2];
+}
+\end{dot2tex}
+\end{center}
+\textbf{Output:} \texttt{14 4 5 2 2 3 4 1 1 2 }\\
+\textbf{Status:} Ok, como hay una sola fábrica debe conectar a todo el grafo(fábrica y clientes) con el menor costo posible.
+Es decir debe hacer el AGM del grafo. Notar que lo hace ya que devuelve lo que haria Kruskal, siempre eligiendo los nodos de menor peso
+que no generan circuitos.\\
+
+\newpage
+\subsection{Testing de Performance}
+
+Para realizar el test, generamos grafos aleatorios, con pesos aleatorios (entre 0 y 100). Decimos que los grafos son aleatorios, porque nuestro algoritmo va agrandando alguna componente conexa uniendo vertices
+correspondientes a los clientes con componenetes conexas que contienen una fabrica. Cabe destacar que esas componenetes conexas pueden ser simplemente una fábrica.
+
+Realizamos un gráfico comparando la sucesión de tiempos obtenida con una función cuadrática.
+La función $f = C * n^2$, donde C es una constante. Se midió el tiempo con n desde 1 hasta 1000 con saltos de a 10 (con 10 mediciones por cada n).\\
+
+\begin{figure}[H]
+\centering
+\includegraphics{imgs/logo_dc.jpg}
+\caption{Test Performance: Tiempo(s) vs Cantidad de Clientes y Fábricas.}
+\end{figure}

@@ -1,0 +1,130 @@
+%% Creator: Inkscape inkscape 0.48.3.1, www.inkscape.org
+%% PDF/EPS/PS + LaTeX output extension by Johan Engelen, 2010
+%% Accompanies image file 'tests_ej2.pdf' (pdf, eps, ps)
+%%
+%% To include the image in your LaTeX document, write
+%%   \input{<filename>.pdf_tex}
+%%  instead of
+%%   \includegraphics{<filename>.pdf}
+%% To scale the image, write
+%%   \def\svgwidth{<desired width>}
+%%   \input{<filename>.pdf_tex}
+%%  instead of
+%%   \includegraphics[width=<desired width>]{<filename>.pdf}
+%%
+%% Images with a different path to the parent latex file can
+%% be accessed with the `import' package (which may need to be
+%% installed) using
+%%   \usepackage{import}
+%% in the preamble, and then including the image with
+%%   \import{<path to file>}{<filename>.pdf_tex}
+%% Alternatively, one can specify
+%%   \graphicspath{{<path to file>/}}
+%% 
+%% For more information, please see info/svg-inkscape on CTAN:
+%%   http://tug.ctan.org/tex-archive/info/svg-inkscape
+%%
+\begingroup%
+  \makeatletter%
+  \providecommand\color[2][]{%
+    \errmessage{(Inkscape) Color is used for the text in Inkscape, but the package 'color.sty' is not loaded}%
+    \renewcommand\color[2][]{}%
+  }%
+  \providecommand\transparent[1]{%
+    \errmessage{(Inkscape) Transparency is used (non-zero) for the text in Inkscape, but the package 'transparent.sty' is not loaded}%
+    \renewcommand\transparent[1]{}%
+  }%
+  \providecommand\rotatebox[2]{#2}%
+  \ifx\svgwidth\undefined%
+    \setlength{\unitlength}{561.61235352bp}%
+    \ifx\svgscale\undefined%
+      \relax%
+    \else%
+      \setlength{\unitlength}{\unitlength * \real{\svgscale}}%
+    \fi%
+  \else%
+    \setlength{\unitlength}{\svgwidth}%
+  \fi%
+  \global\let\svgwidth\undefined%
+  \global\let\svgscale\undefined%
+  \makeatother%
+  \begin{picture}(1,1.49646234)%
+    \put(0,0){\includegraphics[width=\unitlength]{tests_ej2.pdf}}%
+    \put(0.34290258,1.37281979){\color[rgb]{0,0,0}\makebox(0,0)[lt]{\begin{minipage}{0.0870872\unitlength}\raggedright 1\end{minipage}}}%
+    \put(0.70850086,1.36941646){\color[rgb]{0,0,0}\makebox(0,0)[lt]{\begin{minipage}{0.0870872\unitlength}\raggedright 1\end{minipage}}}%
+    \put(0.32579707,1.50124553){\color[rgb]{0,0,0}\makebox(0,0)[lt]{\begin{minipage}{0.90364932\unitlength}\raggedright Input\end{minipage}}}%
+    \put(0.66325009,1.50152958){\color[rgb]{0,0,0}\makebox(0,0)[lt]{\begin{minipage}{0.90364932\unitlength}\raggedright Output\end{minipage}}}%
+    \put(0.00675805,1.43421176){\color[rgb]{0,0,0}\makebox(0,0)[lt]{\begin{minipage}{0.36548876\unitlength}\raggedright Test#1: Arbol de un unico nodo\end{minipage}}}%
+    \put(0.00385152,1.2701389){\color[rgb]{0,0,0}\makebox(0,0)[lt]{\begin{minipage}{0.86192032\unitlength}\raggedright Test#2: Arbol con un nodo por fuera \\ del camino maximo\end{minipage}}}%
+    \put(0.24301355,1.1372662){\color[rgb]{0,0,0}\makebox(0,0)[lt]{\begin{minipage}{0.0870872\unitlength}\raggedright 3\end{minipage}}}%
+    \put(0.32647161,1.16892271){\color[rgb]{0,0,0}\makebox(0,0)[lt]{\begin{minipage}{0.0870872\unitlength}\raggedright 4\end{minipage}}}%
+    \put(0.30057084,1.07827){\color[rgb]{0,0,0}\makebox(0,0)[lt]{\begin{minipage}{0.0870872\unitlength}\raggedright 2\end{minipage}}}%
+    \put(0.39266249,1.12575476){\color[rgb]{0,0,0}\makebox(0,0)[lt]{\begin{minipage}{0.0870872\unitlength}\raggedright 5\end{minipage}}}%
+    \put(0.44590297,1.17755631){\color[rgb]{0,0,0}\makebox(0,0)[lt]{\begin{minipage}{0.0870872\unitlength}\raggedright 6\end{minipage}}}%
+    \put(0.37827317,1.06244175){\color[rgb]{0,0,0}\makebox(0,0)[lt]{\begin{minipage}{0.0870872\unitlength}\raggedright 7\end{minipage}}}%
+    \put(0.24301355,1.05093028){\color[rgb]{0,0,0}\makebox(0,0)[lt]{\begin{minipage}{0.0870872\unitlength}\raggedright 1\end{minipage}}}%
+    \put(0.45021977,1.04949136){\color[rgb]{0,0,0}\makebox(0,0)[lt]{\begin{minipage}{0.0870872\unitlength}\raggedright 8\end{minipage}}}%
+    \put(0.58332099,1.13612585){\color[rgb]{0,0,0}\makebox(0,0)[lt]{\begin{minipage}{0.0870872\unitlength}\raggedright 3\end{minipage}}}%
+    \put(0.66677906,1.16778238){\color[rgb]{0,0,0}\makebox(0,0)[lt]{\begin{minipage}{0.0870872\unitlength}\raggedright 4\end{minipage}}}%
+    \put(0.64087829,1.07712967){\color[rgb]{0,0,0}\makebox(0,0)[lt]{\begin{minipage}{0.0870872\unitlength}\raggedright 2\end{minipage}}}%
+    \put(0.73296994,1.12461441){\color[rgb]{0,0,0}\makebox(0,0)[lt]{\begin{minipage}{0.0870872\unitlength}\raggedright 5\end{minipage}}}%
+    \put(0.78621042,1.17641597){\color[rgb]{0,0,0}\makebox(0,0)[lt]{\begin{minipage}{0.0870872\unitlength}\raggedright 6\end{minipage}}}%
+    \put(0.71858061,1.06130142){\color[rgb]{0,0,0}\makebox(0,0)[lt]{\begin{minipage}{0.0870872\unitlength}\raggedright 7\end{minipage}}}%
+    \put(0.58332099,1.04978995){\color[rgb]{0,0,0}\makebox(0,0)[lt]{\begin{minipage}{0.0870872\unitlength}\raggedright 1\end{minipage}}}%
+    \put(0.79052722,1.04835103){\color[rgb]{0,0,0}\makebox(0,0)[lt]{\begin{minipage}{0.0870872\unitlength}\raggedright 8\end{minipage}}}%
+    \put(0.34014147,0.84902063){\color[rgb]{0,0,0}\makebox(0,0)[lt]{\begin{minipage}{0.0870872\unitlength}\raggedright 1\end{minipage}}}%
+    \put(0.00057058,0.95323939){\color[rgb]{0,0,0}\makebox(0,0)[lt]{\begin{minipage}{0.36548876\unitlength}\raggedright Test#3: Arbol en estrella\end{minipage}}}%
+    \put(0.3437388,0.92240617){\color[rgb]{0,0,0}\makebox(0,0)[lt]{\begin{minipage}{0.0870872\unitlength}\raggedright 2\end{minipage}}}%
+    \put(0.3415804,0.77491564){\color[rgb]{0,0,0}\makebox(0,0)[lt]{\begin{minipage}{0.0870872\unitlength}\raggedright 4\end{minipage}}}%
+    \put(0.4286358,0.84470385){\color[rgb]{0,0,0}\makebox(0,0)[lt]{\begin{minipage}{0.0870872\unitlength}\raggedright 3\end{minipage}}}%
+    \put(0.25308608,0.84902063){\color[rgb]{0,0,0}\makebox(0,0)[lt]{\begin{minipage}{0.0870872\unitlength}\raggedright 5\end{minipage}}}%
+    \put(0.67469317,0.84650251){\color[rgb]{0,0,0}\makebox(0,0)[lt]{\begin{minipage}{0.0870872\unitlength}\raggedright 1\end{minipage}}}%
+    \put(0.6782905,0.91988805){\color[rgb]{0,0,0}\makebox(0,0)[lt]{\begin{minipage}{0.0870872\unitlength}\raggedright 2\end{minipage}}}%
+    \put(0.6761321,0.77239752){\color[rgb]{0,0,0}\makebox(0,0)[lt]{\begin{minipage}{0.0870872\unitlength}\raggedright 4\end{minipage}}}%
+    \put(0.7631875,0.84218572){\color[rgb]{0,0,0}\makebox(0,0)[lt]{\begin{minipage}{0.0870872\unitlength}\raggedright 3\end{minipage}}}%
+    \put(0.58763778,0.84650251){\color[rgb]{0,0,0}\makebox(0,0)[lt]{\begin{minipage}{0.0870872\unitlength}\raggedright 5\end{minipage}}}%
+    \put(0.08743432,0.57767295){\color[rgb]{0,0,0}\makebox(0,0)[lt]{\begin{minipage}{0.0870872\unitlength}\raggedright 1\end{minipage}}}%
+    \put(0.17664811,0.57767295){\color[rgb]{0,0,0}\makebox(0,0)[lt]{\begin{minipage}{0.0870872\unitlength}\raggedright 2\end{minipage}}}%
+    \put(0.26298402,0.57623403){\color[rgb]{0,0,0}\makebox(0,0)[lt]{\begin{minipage}{0.0870872\unitlength}\raggedright 3\end{minipage}}}%
+    \put(0.35219783,0.57623403){\color[rgb]{0,0,0}\makebox(0,0)[lt]{\begin{minipage}{0.0870872\unitlength}\raggedright 4\end{minipage}}}%
+    \put(0.43997268,0.5747951){\color[rgb]{0,0,0}\makebox(0,0)[lt]{\begin{minipage}{0.0870872\unitlength}\raggedright 5\end{minipage}}}%
+    \put(0.00419636,0.66235408){\color[rgb]{0,0,0}\makebox(0,0)[lt]{\begin{minipage}{0.85904252\unitlength}\raggedright Test#4: Arbol de un solo camino\\ \end{minipage}}}%
+    \put(0.56768059,0.57506161){\color[rgb]{0,0,0}\makebox(0,0)[lt]{\begin{minipage}{0.0870872\unitlength}\raggedright 1\end{minipage}}}%
+    \put(0.65689439,0.57506161){\color[rgb]{0,0,0}\makebox(0,0)[lt]{\begin{minipage}{0.0870872\unitlength}\raggedright 2\end{minipage}}}%
+    \put(0.74323031,0.57362269){\color[rgb]{0,0,0}\makebox(0,0)[lt]{\begin{minipage}{0.0870872\unitlength}\raggedright 3\end{minipage}}}%
+    \put(0.83244411,0.57362269){\color[rgb]{0,0,0}\makebox(0,0)[lt]{\begin{minipage}{0.0870872\unitlength}\raggedright 4\end{minipage}}}%
+    \put(0.92021896,0.57218376){\color[rgb]{0,0,0}\makebox(0,0)[lt]{\begin{minipage}{0.0870872\unitlength}\raggedright 5\end{minipage}}}%
+    \put(0.00004354,0.43858873){\color[rgb]{0,0,0}\makebox(0,0)[lt]{\begin{minipage}{0.36548876\unitlength}\raggedright Test#5: Arbol con mas de un camino maximo\\ \end{minipage}}}%
+    \put(0.24656072,0.22449871){\color[rgb]{0,0,0}\makebox(0,0)[lt]{\begin{minipage}{0.0870872\unitlength}\raggedright 1\end{minipage}}}%
+    \put(0.24799965,0.15039372){\color[rgb]{0,0,0}\makebox(0,0)[lt]{\begin{minipage}{0.0870872\unitlength}\raggedright 4\end{minipage}}}%
+    \put(0.33505506,0.22018193){\color[rgb]{0,0,0}\makebox(0,0)[lt]{\begin{minipage}{0.0870872\unitlength}\raggedright 3\end{minipage}}}%
+    \put(0.15950533,0.22449871){\color[rgb]{0,0,0}\makebox(0,0)[lt]{\begin{minipage}{0.0870872\unitlength}\raggedright 5\end{minipage}}}%
+    \put(0.08360167,0.27701974){\color[rgb]{0,0,0}\makebox(0,0)[lt]{\begin{minipage}{0.0870872\unitlength}\raggedright 12\end{minipage}}}%
+    \put(0.02676385,0.20938994){\color[rgb]{0,0,0}\makebox(0,0)[lt]{\begin{minipage}{0.0870872\unitlength}\raggedright 13\end{minipage}}}%
+    \put(0.02892225,0.34285088){\color[rgb]{0,0,0}\makebox(0,0)[lt]{\begin{minipage}{0.0870872\unitlength}\raggedright 11\end{minipage}}}%
+    \put(0.39692912,0.27881842){\color[rgb]{0,0,0}\makebox(0,0)[lt]{\begin{minipage}{0.0870872\unitlength}\raggedright 6\end{minipage}}}%
+    \put(0.46024213,0.20831074){\color[rgb]{0,0,0}\makebox(0,0)[lt]{\begin{minipage}{0.0870872\unitlength}\raggedright 7\end{minipage}}}%
+    \put(0.18684505,0.08054439){\color[rgb]{0,0,0}\makebox(0,0)[lt]{\begin{minipage}{0.0870872\unitlength}\raggedright 8\end{minipage}}}%
+    \put(0.25159699,0.08054439){\color[rgb]{0,0,0}\makebox(0,0)[lt]{\begin{minipage}{0.0870872\unitlength}\raggedright 9\end{minipage}}}%
+    \put(0.31355785,0.07766653){\color[rgb]{0,0,0}\makebox(0,0)[lt]{\begin{minipage}{0.0870872\unitlength}\raggedright 10\end{minipage}}}%
+    \put(0.25735273,0.30645673){\color[rgb]{0,0,0}\makebox(0,0)[lt]{\begin{minipage}{0.0870872\unitlength}\raggedright 2\end{minipage}}}%
+    \put(0.75885288,0.2153491){\color[rgb]{0,0,0}\makebox(0,0)[lt]{\begin{minipage}{0.0870872\unitlength}\raggedright 1\end{minipage}}}%
+    \put(0.76029181,0.14124411){\color[rgb]{0,0,0}\makebox(0,0)[lt]{\begin{minipage}{0.0870872\unitlength}\raggedright 4\end{minipage}}}%
+    \put(0.84734722,0.21103231){\color[rgb]{0,0,0}\makebox(0,0)[lt]{\begin{minipage}{0.0870872\unitlength}\raggedright 3\end{minipage}}}%
+    \put(0.67179749,0.2153491){\color[rgb]{0,0,0}\makebox(0,0)[lt]{\begin{minipage}{0.0870872\unitlength}\raggedright 5\end{minipage}}}%
+    \put(0.59589383,0.26787012){\color[rgb]{0,0,0}\makebox(0,0)[lt]{\begin{minipage}{0.0870872\unitlength}\raggedright 12\end{minipage}}}%
+    \put(0.53905601,0.20024033){\color[rgb]{0,0,0}\makebox(0,0)[lt]{\begin{minipage}{0.0870872\unitlength}\raggedright 13\end{minipage}}}%
+    \put(0.54121441,0.33370125){\color[rgb]{0,0,0}\makebox(0,0)[lt]{\begin{minipage}{0.0870872\unitlength}\raggedright 11\end{minipage}}}%
+    \put(0.90922129,0.26966879){\color[rgb]{0,0,0}\makebox(0,0)[lt]{\begin{minipage}{0.0870872\unitlength}\raggedright 6\end{minipage}}}%
+    \put(0.9725343,0.19916112){\color[rgb]{0,0,0}\makebox(0,0)[lt]{\begin{minipage}{0.0870872\unitlength}\raggedright 7\end{minipage}}}%
+    \put(0.69913722,0.07139477){\color[rgb]{0,0,0}\makebox(0,0)[lt]{\begin{minipage}{0.0870872\unitlength}\raggedright 8\end{minipage}}}%
+    \put(0.76388916,0.07139477){\color[rgb]{0,0,0}\makebox(0,0)[lt]{\begin{minipage}{0.0870872\unitlength}\raggedright 9\end{minipage}}}%
+    \put(0.83439684,0.06851692){\color[rgb]{0,0,0}\makebox(0,0)[lt]{\begin{minipage}{0.0870872\unitlength}\raggedright 10\end{minipage}}}%
+    \put(0.7696449,0.2973071){\color[rgb]{0,0,0}\makebox(0,0)[lt]{\begin{minipage}{0.0870872\unitlength}\raggedright 2\end{minipage}}}%
+    \put(0.87340365,1.28812796){\color[rgb]{0,0,0}\makebox(0,0)[lt]{\begin{minipage}{0.16890147\unitlength}\raggedright Status: OK\end{minipage}}}%
+    \put(0.87766688,1.05872578){\color[rgb]{0,0,0}\makebox(0,0)[lt]{\begin{minipage}{0.16890147\unitlength}\raggedright Status: OK\end{minipage}}}%
+    \put(0.87766688,0.71603899){\color[rgb]{0,0,0}\makebox(0,0)[lt]{\begin{minipage}{0.16890147\unitlength}\raggedright Status: OK\end{minipage}}}%
+    \put(0.87766688,0.47387908){\color[rgb]{0,0,0}\makebox(0,0)[lt]{\begin{minipage}{0.16890147\unitlength}\raggedright Status: OK\end{minipage}}}%
+    \put(0.90005142,0.02618848){\color[rgb]{0,0,0}\makebox(0,0)[lt]{\begin{minipage}{0.16890147\unitlength}\raggedright Status: OK\end{minipage}}}%
+  \end{picture}%
+\endgroup%

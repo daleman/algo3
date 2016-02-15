@@ -1,0 +1,57 @@
+\section{Introducción}
+\par{El presente informe apunta a documentar el proceso de desarrollo del Trabajo
+Práctico número 3 de la materia Algoritmos y Estructuras de Datos III, cursada
+correspondiente al segundo cuatrimestre del año 2013.}\\
+
+\par{Este trabajo práctico consiste en el análisis de diferentes heurísticas
+para tratar el \emph{Problema de la Clique de Máxima Frontera} (\emph{CMF} de
+ahora en más). Dado un grafo $G=(V,E)$, una clique de $G$ es un subconjunto $K$
+de los nodos de $V$ tal que para todo par de nodos de $K$, existe una arista
+en $E$ que los une. Es decir,}
+\[
+sea\ G = (V,E),\ K \subseteq V\ es\ clique\ de\ G \Leftrightarrow (v,w)
+\in E\ \forall\ v,w \in K
+\]
+
+\par{En otras palabras, una clique de $G$ es el conjunto de nodos de un
+subgrafo completo de $G$. Dado un conjunto de nodos $C$, se define la frontera
+de $C$ en $G$ ($\delta_G$($C$)) como la cantidad de aristas que tienen un
+extremo en $C$ y el otro en $V\backslash C$. Es decir,}
+\[
+sean\ G = (V,E),\ y\ C \subseteq V\ un\ subconjunto\ de\ nodos,\ \delta_G(C)
+= |{(v,w) \in E / v \in C \land w \notin C}|
+\]
+
+\par{El problema de $CMF$ consiste en, dado un grafo $G$, encontrar
+una clique $K$ de $G$ tal que la frontera de $K$ sea mayor a la frontera de
+cualquier otra clique de $K$, es decir,}
+\[
+sean\ G = (V,E),\ y\ K \subseteq V\ una\ clique\ de\ G,\ K\ es\ CMF
+\Leftrightarrow \delta_G(K) \geq \delta_G(K')\ \forall K'\ clique\ de\ G
+\]
+
+%\par{Exhibimos un ejemplo del problema en la siguiente figura:}
+
+%\textbf{GRAFICO$\_$COPADO.PNG}
+
+%\par{Podemos ver como los vértices coloreados con negro corresponden a la
+%clique que tiene la frontera mas grande del grafo, mientras que los coloreados
+%con gris corresponden a su frontera.}\\
+
+\par{Para resolver este problema se pide implementar:}
+\begin{itemize}
+\item Un algoritmo exacto.
+\item Una heurística constructiva golosa.
+\item Una heurística de búsqueda local.
+\item Una metaheurística de búsqueda tabú.
+\end{itemize} 
+
+\par{Luego de haber terminado con la programación de nuestras soluciones,
+vamos a realizar una experimentación con el objetivo de verificar y comparar
+tanto los tiempos de ejecución como los resultados de los programas extrayendo
+así conclusiones sobre la performance y la optimalidad de los diferentes
+métodos propuestos en este trabajo práctico.}\\
+
+\par{Esperamos, al finalizar este proyecto, tener un entendimiento teórico
+sobre el análisis heurístico de problemas difíciles de tratar junto las
+herramientas prácticas para poder abordar este tipo de problemas en el futuro.}

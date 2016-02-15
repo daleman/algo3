@@ -1,0 +1,10 @@
+*.aux
+*.toc
+*.out
+*.exe
+*~
+*.swp
+*.log
+*.o
+*.in
+*.dat

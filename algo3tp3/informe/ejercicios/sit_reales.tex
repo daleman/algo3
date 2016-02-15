@@ -1,0 +1,19 @@
+\section{Descripción de Situaciones Reales}
+
+\textbf{1 - Invitaciones de Amigos}\\
+
+\par{Aprobamos Algo3, situación digna de un festejo de proporciones descontroladas\footnote{Suponiendo que aprobar Algo3 podría ser una situación de la vida real.}. Como grupo generoso que somos decidimos invitar amigos de nuestra cursada a un boliche para festejar la ocasión.}\\
+
+\par{Este boliche tiene una particularidad: a la zona VIP del mismo sólo pueden entrar grupos de amigos que cumplan la condición de que todos son amigos de todos. El costo de usar la zona VIP es el mismo sin importar cuantos invitados sean. A su vez, el boliche cuenta los martes con la siguiente promoción: si hacemos uso de la zona VIP, entonces el establecimiento nos devuelve a nosotros un porcentaje de cada entrada no-VIP vendida gracias a nuestra invitación.}\\
+
+\par{La pregunta es: ¿Qué grupo de amigos de nuestra cursada de Algo3 deberíamos seleccionar para garantizarnos ganar la mayor cantidad de dinero en esta fiesta}
+\\\\
+\textbf{2 - Broadcast}\\
+
+\par{Volvemos al segundo ejercicio del Trabajo Práctico 2. En este problema teníamos un servidor denominado $master$ el cual era el encargado de recibir un paquete de información determinado y replicarlo a sus servidores vecinos. Estos servidores vecinos replicarían el mismo paquete a sus vecinos, y así consecutivamente hasta haber copiado el paquete a todos los servidores de la red.}\\
+
+\par{La companía $Algo3 Networking Solutions$ decidió modificar su infraestructura y ahora cuenta también con varios $clusters$. Un $cluster$ es una red de tres o más servidores los cuales están todos conectados entre si. Si un servidor de un determinado $cluster$ recibe un paquete, automáticamente hace un broadcast a todos los otros servidores correspondientes al mismo $cluster$ copiando dicho paquete en todos y luego, cada uno de los servidores del $cluster$ copia el paquete a todos los servidores externos al $cluster$ a los que esté conectado.}\\
+
+\par{No obstante, esta nueva infraestructura cuenta con una desventaja en comparación con la anterior: los únicos servidores que pueden copiar información son los pertenecientes a un $cluster$. El resto sólo puede recibirla.}\\
+
+\par{Lógicamente esto nos presenta un problema: la información puede no ser replicada a todos los servidores. Pero sabemos que si un paquete es transmitido desde un $cluster$ hacia otro $cluster$, este segundo va a poder transmitirla a todos los servidores aislados a los que esté conectado. Si pudiéramos encontrar de alguna manera el $cluster$ que esté conectado a la mayor cantidad de servidores externos a el, estaríamos aumentando las probabilidades de que uno de estos servidores corresponda a otro $cluster$, incrementando el alcance de nuestro paquete.}

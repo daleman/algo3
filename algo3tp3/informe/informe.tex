@@ -1,0 +1,81 @@
+\nonstopmode
+\documentclass[10pt,a4paper]{article}
+\usepackage[utf8]{inputenc} % para poder usar tildes en archivos UTF-8
+\usepackage[spanish]{babel} % para que comandos como \today den el resultado en castellano
+\usepackage{a4wide} % márgenes un poco más anchos que lo usual
+\usepackage{color}
+\usepackage{gnuplottex}
+\usepackage{amssymb}
+%\usepackage{ccfonts,eulervm}
+\usepackage{dot2texi}
+\usepackage{tikz}
+\usetikzlibrary{shapes,arrows}
+\usepackage[T1]{fontenc}
+\usepackage{listings}
+\usepackage{xcolor}
+\usepackage{amsmath}
+\lstset { %
+    language=C++,
+    %backgroundcolor=\color{black!5}, % set backgroundcolor
+                   basicstyle=\ttfamily,
+                keywordstyle=\color{blue}\ttfamily,
+                stringstyle=\color{red}\ttfamily,
+                commentstyle=\color{green}\ttfamily,
+                morecomment=[l][\color{magenta}]{\#}
+}
+\usepackage{float}
+\usepackage{fancyhdr}
+\pagestyle{fancy}
+\thispagestyle{fancy}
+\addtolength{\headheight}{1pt}
+\lhead{AED3}
+\rhead{TP3}
+\usepackage[ruled,vlined,linesnumbered]{algorithm2e}
+\usepackage[conEntregas]{caratula}
+\renewcommand*{\algorithmcfname}{Algoritmo}
+
+\begin{document}
+
+\titulo{Trabajo Práctico III}
+\subtitulo{Grupo 5}
+
+\fecha{\today}
+
+\materia{Algoritmos y Estructuras de Datos III}
+
+\integrante{Aleman, Damian Eliel}{377/10}{damianealeman@gmail.com}
+\integrante{Amil, Diego Alejandro}{68/09}{amildie@gmail.com}
+\integrante{Barabas, Ariel}{775/11}{ariel.baras@gmail.com}
+\integrante{Fern\'andez, Gonzalo Pablo}{836/10}{ralo4155@hotmail.com}
+
+\maketitle
+
+
+\tableofcontents
+
+\newpage
+\input{intro.tex}
+
+\newpage
+\input{pdi.tex}
+
+\newpage
+\input{ejercicios/sit_reales.tex}
+\newpage
+\input{ejercicios/alg_exacto.tex}
+\newpage
+\input{ejercicios/heur_golosa.tex}
+\newpage
+\input{ejercicios/heur_bLocal.tex}
+\newpage
+\input{ejercicios/heur_bTabu.tex}
+\newpage
+\input{ejercicios/exp.tex}
+
+\newpage
+\input{ejercicios/conclusion.tex}
+\newpage
+\input{ejercicios/apendice.tex}
+
+
+\end{document}

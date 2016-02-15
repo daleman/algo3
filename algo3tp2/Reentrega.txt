@@ -1,0 +1,47 @@
+Ej1
+	Testing de performance - Ampliar - Rehacer Gráficos		Ya esta hecho el grafico
+
+Ej2 a)
+	Resolución - Agregar explicación de Kruskal (idea)		Hecho (revisar)
+
+	Demostración de correctitud								Encarado
+
+	Cota de complejidad										_
+
+	Implementación - Corregir y reescribir sección			_
+					Agregar explicación de Disjoint Sets	_
+
+Ej2 b)
+	Resolución - Agregar explicación BFS y DFS (idea)		_
+
+	Implementación - Corregir y reescribir sección			el codigo esta bien
+					(¿DFS recursivo?)
+
+	Testing de performance - Ampliar - Rehacer Gráficos		Ya esta hecho el grafico
+		Aclarar que generar_instancia_ej2b genera un árbol	esta aclarado que para el test generamos un arbol...
+			(salida del ej2a)
+		y que generar_aristas_aleatorias (de grafo.h)		_
+			genera un árbol
+
+Ej3
+	Cota de complejidad										_
+
+	Testing de correctitud - Graficar como en el ej2
+						(Marcar nodos fábricas (1 - F) )	_
+
+	Testing de performance - Ampliar - Rehacer Gráficos		_
+
+Test.cpp:
+	En lugar de llamar a resolver_ejx, ejecutamos
+	las mismas funciones que ejecuta resolver_ejx pero
+	sin guardar y devolver resultados.						Hecho (revisar)
+	Además: Kruskal_no_res (grafoEx) para que no
+	devuelva resultado.										Hecho (revisar)
+
+Código en Gral: sacados los 'new' y pasamos todo
+		por referencia, nada por copia.						Hecho (revisar si
+															es cierto)
+	Compilar sin O2											Hecho
+
+Informe de modificaciones:
+	Completar descripción de DisjointSets					_

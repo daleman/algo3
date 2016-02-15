@@ -1,0 +1,257 @@
+\nonstopmode
+\documentclass[10pt,a4paper]{article}
+\usepackage[utf8]{inputenc} % para poder usar tildes en archivos UTF-8
+\usepackage[spanish]{babel} % para que comandos como \today den el resultado en castellano
+\usepackage{a4wide} % márgenes un poco más anchos que lo usual
+\usepackage{color}
+\usepackage{gnuplottex}
+%\usepackage{ccfonts,eulervm}
+\usepackage{dot2texi}
+\usepackage{tikz}
+\usetikzlibrary{shapes,arrows}
+\usepackage[T1]{fontenc}
+\usepackage{listings}
+\usepackage{xcolor}
+\usepackage{amsmath}
+\lstset { %
+    language=C++,
+    %backgroundcolor=\color{black!5}, % set backgroundcolor
+                   basicstyle=\ttfamily,
+                keywordstyle=\color{blue}\ttfamily,
+                stringstyle=\color{red}\ttfamily,
+                commentstyle=\color{green}\ttfamily,
+                morecomment=[l][\color{magenta}]{\#}
+}
+\usepackage{float}
+\usepackage{fancyhdr}
+\pagestyle{fancy}
+\thispagestyle{fancy}
+\addtolength{\headheight}{1pt}
+\lhead{AED3}
+\rhead{TP2}
+\usepackage[ruled,vlined,linesnumbered]{algorithm2e}
+\usepackage[conEntregas]{caratula}
+\renewcommand*{\algorithmcfname}{Algoritmo}
+
+\begin{document}
+
+\titulo{Trabajo Práctico II}
+\subtitulo{Grupo 5}
+
+\fecha{\today}
+
+\materia{Algoritmos y Estructuras de Datos III}
+
+\integrante{Aleman, Damian Eliel}{377/10}{damianealeman@gmail.com}
+\integrante{Amil, Diego Alejandro}{68/09}{amildie@gmail.com}
+\integrante{Barabas, Ariel}{775/11}{ariel.baras@gmail.com}
+\integrante{Fern\'andez, Gonzalo Pablo}{836/10}{ralo4155@hotmail.com}
+
+\maketitle
+
+
+\tableofcontents
+
+\newpage
+\section{Introducción}
+El presente informe apunta a documentar el desarrollo del Trabajo Práctico número 2 de la materia Algoritmos y Estructuras de Datos III, cursada correspondiente al segundo cuatrimestre del año 2013. Este trabajo pr\'actico consiste en la realización de un análisis teórico-experimental de un conjunto de problemas propuestos por la cátedra. Se requiere, para cada uno de los tres problemas, la implementación de un algoritmo que satisfaga criterios tanto de correctitud como de complejidad temporal.
+
+Vamos a exponer, para cada uno de los problemas, los siguientes apartados:
+
+\begin{itemize}
+\item Una interpretación del enunciado, detallando ejemplos y/o casos particulares.
+\item Una solución propuesta.
+\item Un pseudocódigo que describa la implementación de dicha solución, junto con una explicación de su correctitud y una justificación de su complejidad.
+\item Un apartado de testing, tanto de correctitud como de performance.
+\end{itemize}
+
+
+\newpage
+\section{Pautas de Implementación}
+El lenguaje elegido para la implementación de los algoritmos es \texttt{C++}. De ser necesario vamos a utilizar la biblioteca estandar del mismo y aclarar los costos de las operaciones en cuestión. En el caso de tener que implementar una clase propia para simplificar el código o proveer de cierto encapsulamiento, los costos de los métodos de la misma serán verificados y justificados. La estructura de directorios que utilizaremos para la implementación será la siguiente para todos los ejercicios:
+
+\begin{verbatim}
+\codigo
+	 timer.h
+	 tests.cpp
+     \ejx
+          ejx.cpp
+          ejx.h
+          Makefile
+\end{verbatim}
+
+El archivo \texttt{timer.h} contiene las funciones necesarias pera medir el
+tiempo de ejecución de nuestros programas. Vamos a usar la función
+\texttt{clock$\_$gettime} de la librería \texttt{time.h}. Estas funciones son
+idénticas para las mediciones en todos los ejercicios. El archivo
+\texttt{tests.cpp} contiene el código que testea los ejercicios. A este
+programa se le pasan parámetros que utiliza para generar instancias de los
+ejercicos y, con las funciones de \texttt{timer.h} mide el tiempo que tardan
+en ejecutarse. Las funciones pedidas por la cátedra se encuentran en el
+archivo \texttt{ejx.h}, y se incluyen en \texttt{ejx.cpp}. Este archivo
+trabaja con entrada y salida standard de manera que, para ejecutar un programa
+con su respectivo conjunto de casos, será suficiente con direccionarlo por
+consola escribiendo \texttt{./ejx < ejx.in}. Obviaremos mencionar detalles
+referentes a la carga de datos en las implementaciones. Cada archivo
+\texttt{ejx.h} define los structs \texttt{entrada$\_$ejx} (inicializado a través
+de la función \texttt{inicializar$\_$ejx} a partir de la entrada standard) y
+\texttt{salida$\_$ejx} (devuelto por la función \texttt{resolver$\_$ejx}, la cual
+toma una instancia del tipo \texttt{entrada$\_$ejx}). También se definen las
+funciones \texttt{imprimir$\_$ejx}, la cual imprime una instancia de tipo
+\texttt{salida$\_$ejx} por la salida standard y \texttt{generar$\_$instancia$\_$ejx}
+la cual genera una instancia aleatoria de tipo \texttt{entrada$\_$ejx} a partir
+de un parámetro como tamaño de la instancia. El código de \texttt{ejx.cpp}
+lee entradas con \texttt{inicializar$\_$ejx} hasta recibir una entrada inválida.
+Cada entrada la resuelve con \texttt{resolver$\_$ejx} y luego imprime el
+resultado con \texttt{imprimir$\_$ejx}. El código de \texttt{tests.cpp} genera
+instancias aleatorias con \texttt{generar$\_$instancia$\_$ejx}, las resuleve con
+\texttt{resolver$\_$ejx} y luego imprime los tiempos de ejecución medidos.\\
+
+Para modelar los ejercicios 2 y 3 decidimos implementar una clase grafo mediante listas de adyacencia y desarrollar los algoritmos necesarios como métodos de la misma. Contamos además con métodos auxiliares para simplificar el código, como por ejemplo \texttt{asociar(v,u,p)} que, dados dos nodos $v$ y $u$ crea una arista haciéndolos adyacentes con un peso $p$; o \texttt{vecinos(v)}, que devuelve un vector de todos los nodos que son vecinos a $v$.
+
+Por ejemplo, el programa:
+
+\begin{lstlisting}
+	grafo g(3);
+	g.asociar(1,2,7);
+	g.asociar(2,3,4);
+	g.asociar(3,1,2);
+	grafo a = g.kruskal();
+\end{lstlisting}
+
+Nos va a crear un grafo \texttt{g} de tres nodos, va a crearle 3 aristas con pesos 7, 4 y 2, y luego va a generar un grafo \texttt{a} consistiendo en el AGM de \texttt{g}. 
+
+\newpage
+\input{ejercicios/ej1.tex}
+
+\newpage
+\input{ejercicios/ej2a.tex}
+
+\newpage
+\input{ejercicios/ej2b.tex}
+
+\newpage
+\input{ejercicios/ej3.tex}
+
+\newpage
+\section{Conclusiones}
+
+ 
+\end{enumerate}
+ En primera instancia, la realización del primer ejercicio nos permitió familiarizarnos con el proceso de desarrollo de una solución utilizando la técnica de programación dinámica:
+\begin{enumerate}
+ \item Caracterizamos la estructura de una solución óptima.
+ \item Definimos el valor de la solución óptima recursivamente.
+ \item Computamos el valor de la solución óptima, con una estrategia bottom-up .
+ \item Construimos la solución óptima con la información computada.
+\end{enumerate}
+ 
+Por otro lado, los ejercicios 2 y 3 nos permitieron acercarnos de manera introductoria al modelado de problemas utilizando conceptos de teoría de grafos. El proceso de desarrollo nos impuso la necesidad de contemplar diferentes modelos para cada problema y analizar cuales de estos representaban el problema de manera correcta. 
+
+Luego, utilizando la bibliografía sugerída por la materia y las clases teóricas de la misma, pudimos contemplar diferentes algoritmos y terminamos decidiendo un curso de implementación que en principio pareciera satisfactorio. Durante el proceso de desarrollo los algoritmos implementados fueron cambiados en varios puntos para hacerlos más compatibles con el problema en si. 
+
+A su vez, tuvimos que investigar tanto diferentes opciones de estructuras de datos a la hora de implementar grafos, como diferentes estructuras auxiliares para los algoritmos. En algunos casos incluso realizamos una serie de tweaks a las estructuras empleadas para adaptarlas a nuestros algoritmos y que estos cumplieran bien las cotas de complejidad impuestas por el enunciado.
+
+Por el costado formal, las justificaciones de nuestras soluciones nos sirvieron para complementar las ejercitaciones de la práctica de la materia; contemplando diferentes técnicas de demostración para verificar la correctitud de nuestras implementaciones.
+
+En resumen, creemos que el desarrollo de este trabajo práctico cumplió un rol fundamental dentro del programa de la materia y fue un buen complemento para las clases teóricas y prácticas de la misma.
+
+\newpage
+\section{Informe de modificaciones para la reentrega}
+
+\subsection{Pautas de Implementación}
+\textbf{Clase GrafoEx}
+\par{A pesar de no haberlo mencionado en la primera entrega, se desarrollaron
+en realidad dos clases basadas en grafos. La primera, definida en $grafo.h$
+es un grafo estándar utilizado para el ejercicio 2. La segunda, definida en
+$grafoEx.h$ representa un grafo con nodos diferenciables, utilizado para el
+ejercico 3. La mayor parte de las funciones son idénticas en ambas clases,
+aunque la función para generar una AGM a partir del algoritmo de $Kruskal$,
+en el caso de grafoEx, en lugar de generar un árbol, genera un bosque con
+un nodo diferenciable en cada componente conexa. Para representar la provincia
+del ejercicio 3, representamos las fábricas con los nodos diferenciables y
+los clientes con los nodos no diferenciables. Además, $grafoEx$ tiene una
+variante del algoritmo de $Kruskal$, llamada $Kruskal\_no\_res$ la cual
+hace lo mismo que la función de $Kruskal$ pero no devuelve el resultado.}
+
+\textbf{Disjoint Set}
+\par{Otra clase desarrollada que tampoco fue mencionada en la primera entrega
+es la implementada en $disjointSet.h$. Esta clase se basa en...}
+
+\textbf{Tests corregidos}
+\par{En la primera entrega los tiempos medidos con $test.cpp$ fueron muy poco
+precisos debido a que, al medir el tiempo de ejecución de cada $resolver\_x$
+estábamos incluyendo el código correspondiente a inicializar las estructuras de
+los resultados y, en algunos casos copiarlas. Para resolverlo, modificamos
+el archivo $tests.cpp$ para que cada función $testear\_ejx$, en lugar de hacer
+una llamada a $resolver\_ejx$, ejecute las mismas funciones que esta última
+pero sin guardarse ni devolver los resultados obtenidos. En el ejercicio 3
+se utilizó la función $Kruskal\_no\_res$ en lugar de $Kruskal$ con este
+objetivo. Como se editó el archivo $tests.cpp$, se rehicieron todos los
+gráficos.}
+\par{Para mayor claridad, la función $generar\_instancia\_ej2$ fue reemplazada
+por $generar\_instancia\_ej2b$, ya que en realidad, esta función generaba una
+instancia de entrada para la parte $b$ del ejercicio, es decir un árbol.
+Asimismo, la función $generar\_aristas\_aleatorias$ de $grafo.h$ genera en
+realidad un árbol para ser utilizado como entrada del ejercicio. En el caso del
+$grafoEx$, $generar\_aristas\_aleatorias$ genera un grafo no necesariamente
+conexo, aunque sí asegurando que todo cliente está en una componente conexa
+en la que hay al menos una fábrica. Luego, para cada arista posible, elige
+al azar (con probabilidad 0.5) si agregarla o no al grafo; Por lo que la
+cantidad de aristas de entrada para el ejercico 3 es, en promedio $n.(n-1)$ / 4.}
+
+\textbf{Código}
+\par{Además de algunos cambios menores en el código, se quitaron todas las
+utilizaciones de $new$ y ahora todos los parámetros se pasan por referencia,
+en lugar de hacerse por copia. También cambiamos el $Makefile$ quitándo el
+flag -O2 para obtener mediciones más estables.}
+\subsection{Ejercicio 1}
+\textbf{Testing de performance}
+\par{Se rehizo el gráfico en función de los cambios realizados en $tests.cpp$.
+También ampliamos el análisis del mismo.}
+\subsection{Ejercicio 2 - A}
+\textbf{Resolución}
+\par{Se agregó a la explicación de la resolución del ejercicio una idea del
+funcionamiento del algoritmo de $Kruskal$}
+
+\textbf{Demostración de correctitud}
+\par{Se agregó la sección faltante en la primera entrega en la que demostramos
+la correctitud del ejercico a partir de la demostración de correctitud del
+algoritmo de $Kruskal$}
+
+\textbf{Cota de Complejidad}
+\par{Se agregó la sección faltante en la primera entrega en la que demostramos
+la cota de complejidad del ejercico a partir de la complejidad del
+algoritmo de $Kruskal$}
+
+\textbf{Implementación}
+\par{Se reescribió esta sección profundizando en la implementación del
+algoritmo de $Kruskal$ y de la clase $disjointSet$.}
+
+\subsection{Ejercicio 2 - B}
+\textbf{Resolución}
+\par{Se agregó una idea del funcionamiento de los algoritmos de recorrido de
+grafos, $BFS$ y $DFS$ utilizados para la resolución del problema.}
+
+\textbf{Implementación}
+\par{Se reescribió esta sección profundizando en la implementación de los
+algoritmos de $BFS$ y $DFS$ utilizados.}
+
+\textbf{Testing de performance}
+\par{Se rehizo el gráfico en función de los cambios realizados en $tests.cpp$.
+También ampliamos el análisis del mismo.}
+\subsection{Ejercicio 3}
+\textbf{Cota de Complejidad}
+\par{Se agregó la sección faltante en la primera entrega en la que demostramos
+la cota de complejidad del ejercico a partir de la complejidad del
+algoritmo de $Kruskal$}
+
+\textbf{Testing de correctitud}
+\par{Se rehicieron los gráficos que muestran las instancias pero los tests
+son los mismos.}
+\end{document}
+
+\textbf{Testing de performance}
+\par{Se rehizo el gráfico en función de los cambios realizados en $tests.cpp$.
+También ampliamos el análisis del mismo.}
+\end{document}
